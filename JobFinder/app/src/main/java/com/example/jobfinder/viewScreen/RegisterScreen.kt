@@ -5,10 +5,16 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.AccountBox
+import androidx.compose.material.icons.filled.Email
+import androidx.compose.material.icons.filled.LocationOn
+import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.input.PasswordVisualTransformation
@@ -21,9 +27,15 @@ import com.example.jobfinder.dataClass.UserDto
 import com.example.jobfinder.viewModel.AuthViewModel
 import com.example.jobfinder.viewModel.AuthViewModelFactory
 import com.example.jobfinder.Services.AuthRepository
-import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
-import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.vector.ImageVector
+import android.util.Patterns
+import androidx.compose.ui.text.input.VisualTransformation
+
+
+fun isValidEmail(email: String): Boolean {
+    return Patterns.EMAIL_ADDRESS.matcher(email).matches()
+}
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -36,8 +48,8 @@ fun RegisterScreen(
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     var companyName by remember { mutableStateOf("") }
-    var companyAddress by remember { mutableStateOf("") }
     var companyEmail by remember { mutableStateOf("") }
+    var companyAddress by remember { mutableStateOf("") }
     var companyPassword by remember { mutableStateOf("") }
     var errorMessage by remember { mutableStateOf("") }
     var registrationType by remember { mutableStateOf("") }
@@ -55,10 +67,23 @@ fun RegisterScreen(
             }
         }
     }
+
+
+    val gradientColors = listOf(Color(0xFFB3DAEE), Color(0xFFB3DAEE))
+
     Scaffold(
         topBar = {
             TopAppBar(
                 title = { Text("JobFinder", color = Color.White) },
+                navigationIcon = {
+                    IconButton(onClick = { navController.popBackStack() }) {
+                        Icon(
+                            imageVector = Icons.Default.ArrowBack,
+                            contentDescription = "Voltar",
+                            tint = Color.White
+                        )
+                    }
+                },
                 colors = TopAppBarDefaults.smallTopAppBarColors(containerColor = Color(0xFF003366))
             )
         },
@@ -114,10 +139,39 @@ fun RegisterScreen(
                     }
                     Button(
                         onClick = {
-                            registrationType = if (isUserSelected) "user" else "company"
                             if (isUserSelected) {
+                                if (username.isBlank()) {
+                                    errorMessage = "O nome é obrigatório."
+                                    return@Button
+                                }
+                                if (email.isBlank() || !isValidEmail(email)) {
+                                    errorMessage = "E-mail inválido! ex.: example@example.com"
+                                    return@Button
+                                }
+                                if (password.isBlank()) {
+                                    errorMessage = "A senha é obrigatória."
+                                    return@Button
+                                }
+                                registrationType = "user"
                                 authViewModel.registerUser(UserDto(username, email, password))
                             } else {
+                                if (companyName.isBlank()) {
+                                    errorMessage = "O nome da empresa é obrigatório."
+                                    return@Button
+                                }
+                                if (companyEmail.isBlank() || !isValidEmail(companyEmail)) {
+                                    errorMessage = "E-mail inválido! ex.: company@example.com"
+                                    return@Button
+                                }
+                                if (companyAddress.isBlank()) {
+                                    errorMessage = "O endereço da empresa é obrigatório."
+                                    return@Button
+                                }
+                                if (companyPassword.isBlank()) {
+                                    errorMessage = "A senha da empresa é obrigatória."
+                                    return@Button
+                                }
+                                registrationType = "company"
                                 authViewModel.registerCompany(CompanyDTO(companyName, companyEmail, companyAddress, companyPassword))
                             }
                         },
@@ -133,7 +187,6 @@ fun RegisterScreen(
         }
     )
 }
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun RegisterUserForm(
@@ -176,7 +229,7 @@ fun RegisterCompanyForm(
 fun CustomOutlinedTextField(
     label: String,
     value: String,
-    icon: androidx.compose.ui.graphics.vector.ImageVector,
+    icon: ImageVector,
     onValueChange: (String) -> Unit,
     isPassword: Boolean = false
 ) {
@@ -188,7 +241,7 @@ fun CustomOutlinedTextField(
         modifier = Modifier
             .fillMaxWidth()
             .padding(vertical = 8.dp),
-        visualTransformation = if (isPassword) PasswordVisualTransformation() else androidx.compose.ui.text.input.VisualTransformation.None,
+        visualTransformation = if (isPassword) PasswordVisualTransformation() else VisualTransformation.None,
         colors = TextFieldDefaults.outlinedTextFieldColors(
             focusedBorderColor = Color(0xFF0077B5),
             unfocusedBorderColor = Color.Gray

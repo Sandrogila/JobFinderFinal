@@ -44,6 +44,7 @@ fun EditJobScreen(
     var descriptionError by remember { mutableStateOf(false) }
     var salaryError by remember { mutableStateOf(false) }
 
+
     var isSaving by remember { mutableStateOf(false) }
     val coroutineScope = rememberCoroutineScope()
 
@@ -70,14 +71,14 @@ fun EditJobScreen(
                     .fillMaxSize()
                     .background(Color(0xFFF2F2F2))
                     .padding(paddingValues)
-                    .verticalScroll(rememberScrollState()) // Habilita o scroll
+                    .verticalScroll(rememberScrollState())
                     .padding(16.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Text(
-                    text = "Gerenciar Vaga",
+                    text = "_Gerenciar Vaga",
                     style = MaterialTheme.typography.headlineMedium,
-                    color = Color(0xFF1877F2)
+                    color = Color(0xFF003366)
                 )
                 Spacer(modifier = Modifier.height(16.dp))
 
@@ -123,7 +124,7 @@ fun EditJobScreen(
                     modifier = Modifier.fillMaxWidth()
                 )
                 if (salaryError) {
-                    Text("Informe um valor numérico válido", color = Color.Red, fontSize = 12.sp)
+                    Text("Informe um valor numérico válido ex: 1000.00", color = Color.Red, fontSize = 12.sp)
                 }
                 Spacer(modifier = Modifier.height(8.dp))
 
@@ -181,7 +182,7 @@ fun EditJobScreen(
                             }
                         },
                         enabled = !isSaving,
-                        colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF1877F2))
+                        colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF003366))
                     ) {
                         Text(if (job == null) "Criar" else "Salvar", fontSize = 16.sp, color = Color.White)
                     }

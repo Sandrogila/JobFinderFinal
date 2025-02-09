@@ -79,7 +79,7 @@ class AuthRepository(private val context: Context) {
                 saveUserLocally(authResponse,email)
                 Result.success(authResponse)
             } else {
-                Result.failure(Exception("Erro no login: ${response.message()}"))
+                Result.failure(Exception("Email ou senha incorreta ${response.message()}"))
             }
         } catch (e: Exception) {
             Result.failure(e)

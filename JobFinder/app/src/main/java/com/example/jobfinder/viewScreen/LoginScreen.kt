@@ -153,7 +153,17 @@ fun LoginScreen(
                     }
                     Spacer(modifier = Modifier.height(20.dp))
                     Button(
-                        onClick = { authViewModel.login(email, password) },
+                        onClick = {
+                            if (!isValidEmail(email)) {
+                                errorMessage = "E-mail inválido!ex.: mcreynolds@example.com"
+                            } else if (password.isBlank()  ) {
+                                errorMessage = "A senha é obrigatória!"
+                            }
+                            else {
+                                errorMessage = ""
+                                authViewModel.login(email, password)
+                            }
+                        },
                         modifier = Modifier.fillMaxWidth(),
                         colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF005582)),
                         shape = RoundedCornerShape(8.dp)

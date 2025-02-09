@@ -10,6 +10,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ExitToApp
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.*
@@ -61,6 +62,8 @@ fun UserDashboardScreen(
     val drawerState = rememberDrawerState(DrawerValue.Closed)
     val scope = rememberCoroutineScope()
     val gradientColors = listOf(Color(0xFFB3DAEE), Color(0xFFB3DAEE))
+    val contexte = LocalContext.current
+    val sessionManager = remember { SessionManager(contexte) }
 
     // Filtra as vagas com base no que foi digitado (pesquisa por título ou descrição)
     val filteredJobs = if (searchQuery.text.isBlank()) {
@@ -85,17 +88,28 @@ fun UserDashboardScreen(
             topBar = {
                 TopAppBar(
                     title = { Text("Job Finder", color = Color.White) },
-                    navigationIcon = {
+                    /*navigationIcon = {
                         IconButton(onClick = { scope.launch { drawerState.open() } }) {
                             Icon(imageVector = Icons.Filled.Menu, contentDescription = "Menu", tint = Color.White)
                         }
+                    },*/
+                    actions = {
+                        IconButton(onClick = {
+                            sessionManager.logout()
+                            authViewModel.logout()
+                            navController.navigate("login") {
+                                popUpTo("user_dashboard") { inclusive = true }
+                            }
+                        }) {
+                            Icon(
+                                imageVector = Icons.Filled.ExitToApp,
+                                contentDescription = "Logout",
+                                tint = Color.White
+                            )
+                        }
                     },
                     colors = TopAppBarDefaults.smallTopAppBarColors(containerColor = Color(0xFF003366)),
-                    actions = {
-                        IconButton(onClick = { /* Ação do ícone de busca, se necessário */ }) {
-                            Icon(imageVector = Icons.Filled.Search, contentDescription = "Search", tint = Color.White)
-                        }
-                    }
+
                 )
             },
             content = { paddingValues ->

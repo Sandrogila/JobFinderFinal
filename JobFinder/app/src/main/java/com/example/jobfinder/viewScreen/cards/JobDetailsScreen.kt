@@ -5,6 +5,8 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -30,7 +32,16 @@ fun JobDetailsScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("JobFinder-Detalhes da Vaga", color = Color.White) },
+                title = { Text("JobFinder", color = Color.White) },
+                navigationIcon = {
+                    IconButton(onClick = { navController.popBackStack() }) {
+                        Icon(
+                            imageVector = Icons.Default.ArrowBack,
+                            contentDescription = "Voltar",
+                            tint = Color.White
+                        )
+                    }
+                },
                 colors = TopAppBarDefaults.smallTopAppBarColors(containerColor = Color(0xFF003366)),
             )
         }
@@ -42,6 +53,14 @@ fun JobDetailsScreen(
                 .padding(horizontal = 20.dp, vertical = 12.dp)
                 .verticalScroll(rememberScrollState()) // Habilita o scroll
         ) {
+            Text(
+                text = "_Detalhes da Vaga",
+                fontSize = 24.sp,
+                fontWeight = FontWeight.Bold,
+                color = Color(0xFF003366)
+            )
+            Spacer(modifier=Modifier.height(10.dp))
+
             // Título da vaga
             Text(
                 text = job.title,
