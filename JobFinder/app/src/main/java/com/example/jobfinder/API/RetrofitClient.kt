@@ -10,7 +10,7 @@ import java.util.concurrent.TimeUnit
 
 object RetrofitClient {
 
-    private const val BASE_URL = "http://192.168.11.13:8081/"
+    private const val BASE_URL = "http://192.168.11.20:8081/"
 
     private lateinit var authRepository: AuthRepository
 
