@@ -125,14 +125,7 @@ fun JobDetailsScreen(
                 }
 
             } else {
-                Button(
-                    onClick = { },
-                    modifier = Modifier.fillMaxWidth(),
-                    colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF28A745)),
-                    shape = RoundedCornerShape(8.dp)
-                ) {
-                    Text("Salvar", color = Color.White)
-                }
+
             }
         }
     }
