@@ -42,7 +42,7 @@ fun SplashScreen(navController: NavHostController) {
         }
     }
 
-    val gradientColors = listOf(Color(0xFF0077B5), Color(0xFF005582))
+    val gradientColors = listOf(Color(0xFFB3DAEE), Color(0xFFB3DAEE))
 
     Box(
         modifier = Modifier
@@ -65,7 +65,7 @@ fun SplashScreen(navController: NavHostController) {
                 text = "Job Finder",
                 fontSize = 40.sp,
                 fontWeight = FontWeight.Bold,
-                color = Color.White,
+                color = Color(0xFF005582),
                 modifier = Modifier
                     .padding(top = 20.dp)
                     .alpha(alpha.value)

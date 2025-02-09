@@ -21,6 +21,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
@@ -59,6 +60,7 @@ fun CompanyDashboardScreen(
     // Coleta os estados do JobViewModel
     val jobs by jobViewModel.jobs.collectAsState()
     val message by jobViewModel.message.collectAsState()
+    val gradientColors = listOf(Color(0xFFB3DAEE), Color(0xFFB3DAEE))
 
     // Carrega as vagas quando a tela é iniciada
     LaunchedEffect(Unit) {
@@ -113,6 +115,7 @@ fun CompanyDashboardScreen(
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(paddingValues)
+                    .background(brush = Brush.verticalGradient(gradientColors))
                     .padding(16.dp)
             ) {
                 // Cabeçalho e informações de boas-vindas

@@ -17,6 +17,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
@@ -59,6 +60,7 @@ fun UserDashboardScreen(
     var searchQuery by remember { mutableStateOf(TextFieldValue("")) }
     val drawerState = rememberDrawerState(DrawerValue.Closed)
     val scope = rememberCoroutineScope()
+    val gradientColors = listOf(Color(0xFFB3DAEE), Color(0xFFB3DAEE))
 
     // Filtra as vagas com base no que foi digitado (pesquisa por título ou descrição)
     val filteredJobs = if (searchQuery.text.isBlank()) {
@@ -101,6 +103,7 @@ fun UserDashboardScreen(
                     modifier = Modifier
                         .fillMaxSize()
                         .padding(paddingValues)
+                        .background(brush = Brush.verticalGradient(gradientColors))
                         .padding(16.dp),
                     horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement.Top

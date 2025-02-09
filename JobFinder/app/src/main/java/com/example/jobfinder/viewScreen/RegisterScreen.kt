@@ -2,7 +2,9 @@ package com.example.jobfinder.viewScreen
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -21,6 +23,7 @@ import com.example.jobfinder.viewModel.AuthViewModelFactory
 import com.example.jobfinder.Services.AuthRepository
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
+import androidx.compose.ui.graphics.Brush
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -52,77 +55,84 @@ fun RegisterScreen(
             }
         }
     }
-
-    Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(Color(0xFF0077B5)),
-        contentAlignment = Alignment.Center
-    ) {
-        Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(16.dp)
-                .background(Color.White, shape = RoundedCornerShape(16.dp))
-                .padding(24.dp),
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            Text(text = "Job Finder", fontSize = 26.sp, color = Color(0xFF005582))
-
-            Button(
-                onClick = { isUserSelected = !isUserSelected },
-                colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF449647)),
+    Scaffold(
+        topBar = {
+            TopAppBar(
+                title = { Text("JobFinder", color = Color.White) },
+                colors = TopAppBarDefaults.smallTopAppBarColors(containerColor = Color(0xFF003366))
+            )
+        },
+        content = { paddingValues ->
+            Box(
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(vertical = 8.dp)
+                    .fillMaxSize()
+                    .background(brush = Brush.verticalGradient(listOf(Color(0xFFB3DAEE), Color(0xFFB3DAEE))))
+                    .padding(paddingValues),
+                contentAlignment = Alignment.Center
             ) {
-                Text(if (isUserSelected) "Registrar como Empresa" else "Registrar como Usuário")
-            }
-
-            if (isUserSelected) {
-                RegisterUserForm(
-                    username = username,
-                    email = email,
-                    password = password,
-                    onUsernameChange = { username = it },
-                    onEmailChange = { email = it },
-                    onPasswordChange = { password = it }
-                )
-            } else {
-                RegisterCompanyForm(
-                    companyName = companyName,
-                    companyEmail = companyEmail,
-                    companyAddress = companyAddress,
-                    companyPassword = companyPassword,
-                    onCompanyNameChange = { companyName = it },
-                    onCompanyEmailChange = { companyEmail = it },
-                    onCompanyAddressChange = { companyAddress = it },
-                    onCompanyPasswordChange = { companyPassword = it }
-                )
-            }
-
-            if (errorMessage.isNotEmpty()) {
-                Text(errorMessage, color = Color.Red, modifier = Modifier.padding(top = 8.dp))
-            }
-
-            Button(
-                onClick = {
-                    registrationType = if (isUserSelected) "user" else "company"
-                    if (isUserSelected) {
-                        authViewModel.registerUser(UserDto(username, email, password))
-                    } else {
-                        authViewModel.registerCompany(CompanyDTO(companyName, companyEmail, companyAddress, companyPassword))
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(24.dp)
+                        .background(Color.White, shape = RoundedCornerShape(16.dp))
+                        .padding(24.dp)
+                        .verticalScroll(rememberScrollState()),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    Text("_Register", fontSize = 26.sp, color = Color(0xFF005582))
+                    Button(
+                        onClick = { isUserSelected = !isUserSelected },
+                        colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF005582)),
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(vertical = 8.dp)
+                    ) {
+                        Text(if (isUserSelected) "Registrar como Empresa" else "Registrar como Usuário")
                     }
-                },
-                colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF449647)),
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(vertical = 16.dp)
-            ) {
-                Text("Cadastrar")
+                    if (isUserSelected) {
+                        RegisterUserForm(
+                            username = username,
+                            email = email,
+                            password = password,
+                            onUsernameChange = { username = it },
+                            onEmailChange = { email = it },
+                            onPasswordChange = { password = it }
+                        )
+                    } else {
+                        RegisterCompanyForm(
+                            companyName = companyName,
+                            companyEmail = companyEmail,
+                            companyAddress = companyAddress,
+                            companyPassword = companyPassword,
+                            onCompanyNameChange = { companyName = it },
+                            onCompanyEmailChange = { companyEmail = it },
+                            onCompanyAddressChange = { companyAddress = it },
+                            onCompanyPasswordChange = { companyPassword = it }
+                        )
+                    }
+                    if (errorMessage.isNotEmpty()) {
+                        Text(errorMessage, color = Color.Red, modifier = Modifier.padding(top = 8.dp))
+                    }
+                    Button(
+                        onClick = {
+                            registrationType = if (isUserSelected) "user" else "company"
+                            if (isUserSelected) {
+                                authViewModel.registerUser(UserDto(username, email, password))
+                            } else {
+                                authViewModel.registerCompany(CompanyDTO(companyName, companyEmail, companyAddress, companyPassword))
+                            }
+                        },
+                        colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF005582)),
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(vertical = 16.dp)
+                    ) {
+                        Text("Cadastrar")
+                    }
+                }
             }
         }
-    }
+    )
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
