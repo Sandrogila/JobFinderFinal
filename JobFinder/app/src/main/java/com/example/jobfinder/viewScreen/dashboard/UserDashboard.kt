@@ -103,7 +103,6 @@ fun UserDashboardScreen(
                     modifier = Modifier
                         .fillMaxSize()
                         .padding(paddingValues)
-                        .background(brush = Brush.verticalGradient(gradientColors))
                         .padding(16.dp),
                     horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement.Top
@@ -179,24 +178,7 @@ fun DrawerContent(navController: NavHostController, onClose: () -> Unit,
             Spacer(modifier = Modifier.width(16.dp))
         }
 
-        NavigationDrawerItem(
-            label = { Text("Meu Perfil") },
-            selected = false,
-            onClick = {
-                navController.navigate("profile")
-                onClose()
-            },
-            modifier = Modifier.padding(vertical = 8.dp)
-        )
-        NavigationDrawerItem(
-            label = { Text("Minhas Candidaturas") },
-            selected = false,
-            onClick = {
-                navController.navigate("applications")
-                onClose()
-            },
-            modifier = Modifier.padding(vertical = 8.dp)
-        )
+
         NavigationDrawerItem(
             label = { Text("Logout") },
             selected = false,

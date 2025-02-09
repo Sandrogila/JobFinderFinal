@@ -66,7 +66,6 @@ fun RegisterScreen(
             Box(
                 modifier = Modifier
                     .fillMaxSize()
-                    .background(brush = Brush.verticalGradient(listOf(Color(0xFFB3DAEE), Color(0xFFB3DAEE))))
                     .padding(paddingValues),
                 contentAlignment = Alignment.Center
             ) {

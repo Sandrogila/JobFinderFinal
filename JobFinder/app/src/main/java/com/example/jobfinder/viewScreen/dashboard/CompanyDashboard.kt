@@ -115,7 +115,6 @@ fun CompanyDashboardScreen(
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(paddingValues)
-                    .background(brush = Brush.verticalGradient(gradientColors))
                     .padding(16.dp)
             ) {
                 // Cabeçalho e informações de boas-vindas

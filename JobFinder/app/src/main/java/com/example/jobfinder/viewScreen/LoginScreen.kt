@@ -79,7 +79,6 @@ fun LoginScreen(
             Box(
                 modifier = Modifier
                     .fillMaxSize()
-                    .background(brush = Brush.verticalGradient(gradientColors))
                     .padding(paddingValues),
                 contentAlignment = Alignment.Center
             ) {
